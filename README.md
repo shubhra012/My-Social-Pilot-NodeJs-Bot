@@ -1,8 +1,10 @@
 My Social Pilot - Social Media Automation Dashboard
-📖 Overview
+
+Overview:
 Social Pilot is a powerful social media automation tool built with Node.js. It features a web-based dashboard to connect social media accounts, automate actions like posting and liking, and gain performance insights. The current version is integrated with the Twitter API v2 and Telegram Bot API.
 
-✨ Features
+Features:
+
 📊 Multi-Platform Dashboard: Manage Twitter and Telegram from a single, intuitive interface.
 
 📈 Live Twitter Stats: View real-time metrics including Followers, total Likes, and total Comments.
