@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Pilot Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hidden-section { display: none; }
+        .platform-btn.active { background-color: #4f46e5; color: white; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen bg-gray-200">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 text-white p-5 flex flex-col">
+            <h1 class="text-2xl font-bold mb-10">My Social Pilot</h1>
+            <nav id="sidebar-nav">
+                <a href="#dashboard" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 bg-gray-700">Dashboard</a>
+                <a href="#posts" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Scheduled Posts</a>
+                <a href="#interactions" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Interactions</a>
+                <a href="#trends" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Trends</a>
+                <a href="#analytics" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Analytics</a>
+            </nav>
+            <div class="mt-auto">
+                 <p class="text-xs text-gray-400">Version 2.0.0</p>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <div class="bg-white shadow-md p-4 flex justify-between items-center">
+                <h2 id="page-title" class="text-xl font-semibold">Dashboard Overview</h2>
+                <!-- PLATFORM SELECTOR -->
+                <div id="platform-selector" class="flex items-center space-x-2 bg-gray-200 p-1 rounded-lg">
+                    <button data-platform="Twitter" class="platform-btn px-4 py-1 rounded-md text-sm font-medium active">Twitter</button>
+                    <button data-platform="Telegram" class="platform-btn px-4 py-1 rounded-md text-sm font-medium">Telegram</button>
+                </div>
+                <div class="flex items-center">
+                    <span class="mr-4">Welcome, Admin!</span>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+                </div>
+            </div>
+
+            <!-- Content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="page-section">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-lg"><h3 id="followers-label" class="text-lg font-semibold text-gray-700 mb-2">Followers</h3><p id="followers-stat" class="text-3xl font-bold text-blue-500">Loading...</p></div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-lg font-semibold text-gray-700 mb-2">Likes</h3><p id="likes-stat" class="text-3xl font-bold text-pink-500">Loading...</p></div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-lg font-semibold text-gray-700 mb-2">Comments</h3><p id="comments-stat" class="text-3xl font-bold text-yellow-500">Loading...</p></div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-lg font-semibold text-gray-700 mb-2">Scheduled</h3><p id="scheduled-posts-stat" class="text-3xl font-bold text-indigo-500">Loading...</p></div>
+                    </div>
+                    <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+                        <h3 id="schedule-title" class="text-xl font-semibold mb-4">Schedule a New Post to Twitter</h3>
+                        <form id="schedule-form" class="flex flex-col md:flex-row gap-4"><textarea id="post-content" class="w-full md:w-2/3 p-2 border rounded" placeholder="What's on your mind?" required></textarea><input id="schedule-time" type="datetime-local" class="p-2 border rounded" required><button type="submit" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Schedule</button></form>
+                    </div>
+                    <div class="mt-8 bg-white p-6 rounded-lg shadow-lg"><h3 class="text-xl font-semibold mb-4">Recent Bot Activity</h3><ul id="activity-log"><li class="py-2">Loading activities...</li></ul></div>
+                </section>
+
+                <!-- Other sections -->
+                <section id="posts" class="page-section hidden-section">
+                     <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-xl font-semibold mb-4">All Scheduled Posts</h3><div id="scheduled-posts-list" class="space-y-4"><p>Loading...</p></div></div>
+                </section>
+                <section id="interactions" class="page-section hidden-section">
+                    <div id="interactions-content" class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4">Perform a Twitter Interaction</h3><form id="interaction-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"><div><label for="interaction-type" class="block text-sm font-medium text-gray-700">Action</label><select id="interaction-type" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"><option>Like</option></select></div><div><label for="interaction-keyword" class="block text-sm font-medium text-gray-700">Keyword or #Hashtag</label><input type="text" id="interaction-keyword" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm" placeholder="#NodeJS, #Tech, etc."></div><button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 h-10">Perform Action</button></form></div>
+                </section>
+                <section id="trends" class="page-section hidden-section">
+                    <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-xl font-semibold mb-4">Current Trends</h3><div id="trends-list" class="space-y-4"><p>Loading...</p></div></div>
+                </section>
+                <section id="analytics" class="page-section hidden-section">
+                     <div class="bg-white p-6 rounded-lg shadow-lg"><h3 class="text-xl font-semibold mb-4">Engagement Analytics</h3><div id="analytics-content"><p>Loading...</p></div></div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let currentPlatform = 'Twitter'; // Default platform
+
+        const pageTitle = document.getElementById('page-title');
+        const pageSections = document.querySelectorAll('.page-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const platformSelector = document.getElementById('platform-selector');
+
+        // --- Platform Switching Logic ---
+        platformSelector.addEventListener('click', (e) => {
+            if (e.target.matches('.platform-btn')) {
+                const platform = e.target.dataset.platform;
+                if (platform === currentPlatform) return;
+                
+                currentPlatform = platform;
+                platformSelector.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Refresh the current page with data from the new platform
+                const currentPageId = document.querySelector('.page-section:not(.hidden-section)').id;
+                showPage(currentPageId);
+            }
+        });
+
+        // --- Navigation Logic ---
+        function showPage(pageId) {
+            pageSections.forEach(section => section.classList.toggle('hidden-section', section.id !== pageId));
+            navLinks.forEach(link => link.classList.toggle('bg-gray-700', link.hash === `#${pageId}`));
+            const activeLink = document.querySelector(`a[href="#${pageId}"]`);
+            pageTitle.textContent = activeLink ? activeLink.textContent : 'Dashboard';
+            
+            // Update UI elements based on platform
+            updatePlatformUI();
+
+            // Fetch data for the current page and platform
+            switch(pageId) {
+                case 'dashboard': fetchAndRenderDashboard(); break;
+                case 'posts': fetchScheduledPosts(); break;
+                case 'trends': fetchTrends(); break;
+                case 'analytics': fetchAndRenderAnalytics(); break;
+            }
+        }
+
+        document.getElementById('sidebar-nav').addEventListener('click', (e) => {
+            if (e.target.matches('.nav-link')) {
+                e.preventDefault();
+                showPage(e.target.hash.substring(1));
+            }
+        });
+
+        // --- UI Update Logic ---
+        function updatePlatformUI() {
+            const scheduleTitle = document.getElementById('schedule-title');
+            const interactionsContent = document.getElementById('interactions-content');
+            const followersLabel = document.getElementById('followers-label');
+
+            if (currentPlatform === 'Telegram') {
+                scheduleTitle.textContent = 'Schedule a New Message to Telegram';
+                interactionsContent.innerHTML = `<h3 class="text-xl font-semibold">Interactions Not Supported</h3><p class="text-gray-600 mt-2">The Telegram API does not support automated liking or following.</p>`;
+                followersLabel.textContent = 'Subscribers';
+            } else { // Twitter
+                scheduleTitle.textContent = 'Schedule a New Post to Twitter';
+                interactionsContent.innerHTML = `<h3 class="text-xl font-semibold mb-4">Perform a Twitter Interaction</h3><form id="interaction-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"><div><label for="interaction-type" class="block text-sm font-medium text-gray-700">Action</label><select id="interaction-type" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"><option>Like</option></select></div><div><label for="interaction-keyword" class="block text-sm font-medium text-gray-700">Keyword or #Hashtag</label><input type="text" id="interaction-keyword" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm" placeholder="#NodeJS, #Tech, etc."></div><button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 h-10">Perform Action</button></form>`;
+                document.getElementById('interaction-form').addEventListener('submit', handleInteraction);
+                followersLabel.textContent = 'Followers';
+            }
+        }
+
+        // --- Data Fetching Logic ---
+        async function fetchAndRenderDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/${currentPlatform.toLowerCase()}/stats`);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error);
+                document.getElementById('followers-stat').textContent = data.followers;
+                document.getElementById('likes-stat').textContent = data.likes;
+                document.getElementById('comments-stat').textContent = data.comments;
+                document.getElementById('scheduled-posts-stat').textContent = data.scheduledPosts;
+                const log = document.getElementById('activity-log');
+                log.innerHTML = data.activity.length ? '' : '<li>No recent activity.</li>';
+                data.activity.slice(0, 5).forEach(act => {
+                    const li = document.createElement('li');
+                    li.className = 'border-b py-2 text-sm text-gray-600';
+                    li.textContent = `${act.action} - ${new Date(act.timestamp).toLocaleString()}`;
+                    log.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
+                document.getElementById('activity-log').innerHTML = `<li class="text-red-500">${error.message}</li>`;
+            }
+        }
+        
+        async function fetchScheduledPosts() { /* ... unchanged ... */ }
+        async function fetchTrends() { /* ... unchanged ... */ }
+        
+        async function fetchAndRenderAnalytics() {
+            const content = document.getElementById('analytics-content');
+            content.innerHTML = '<p>Loading analytics report...</p>';
+            try {
+                const response = await fetch(`${API_URL}/${currentPlatform.toLowerCase()}/analytics`);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error);
+
+                const topPost = data.topPost;
+                const isGrowthPositive = parseFloat(data.followerGrowth) >= 0;
+
+                content.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-green-100 rounded-lg">
+                            <h4 class="font-semibold text-green-800">Follower Growth</h4>
+                            <p class="text-3xl font-bold ${isGrowthPositive ? 'text-green-600' : 'text-red-500'}">${data.followerGrowth}</p>
+                            <p class="text-sm text-gray-600">Since last analytics check</p>
+                        </div>
+                        <div class="p-4 bg-yellow-100 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800">Avg. Engagement Rate</h4>
+                            <p class="text-3xl font-bold text-yellow-600">${data.engagementRate}</p>
+                             <p class="text-sm text-gray-600">Per post, on recent tweets</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-indigo-100 rounded-lg">
+                        <h4 class="font-semibold text-indigo-800">Top Performing Post</h4>
+                        <p class="text-lg mt-2">"${topPost.text}"</p>
+                        <div class="flex space-x-4 mt-2 text-sm text-indigo-700">
+                            <span>Likes: ${topPost.likes || 'N/A'}</span>
+                            <span>Comments: ${topPost.comments || 'N/A'}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                content.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+            }
+        }
+
+        // --- Form Handlers ---
+        async function handleSchedulePost(event) {
+            event.preventDefault();
+            const content = document.getElementById('post-content').value;
+            const scheduleTime = document.getElementById('schedule-time').value;
+            try {
+                const response = await fetch(`${API_URL}/schedule`, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ content, scheduleTime, platform: currentPlatform })
+                });
+                const result = await response.json();
+                alert(result.message || result.error);
+                if (response.ok) {
+                    document.getElementById('schedule-form').reset();
+                    fetchAndRenderDashboard();
+                    fetchScheduledPosts();
+                }
+            } catch (error) {
+                alert('An error occurred. Could not connect to the server.');
+            }
+        }
+
+        async function handleInteraction(event) {
+            event.preventDefault();
+            const type = document.getElementById('interaction-type').value;
+            const keyword = document.getElementById('interaction-keyword').value;
+            if (!keyword) return alert('Please enter a keyword.');
+            try {
+                const response = await fetch(`${API_URL}/interact`, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ type, keyword })
+                });
+                const result = await response.json();
+                alert(result.message || result.error);
+                if (response.ok) {
+                    document.getElementById('interaction-form').reset();
+                }
+            } catch (error) {
+                alert('An error occurred. Could not connect to the server.');
+            }
+        }
+        
+        document.getElementById('schedule-form').addEventListener('submit', handleSchedulePost);
+        // The interaction form is re-created when switching platforms, so the listener is added in updatePlatformUI
+        
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('dashboard');
+        });
+
+        // --- UNCHANGED FUNCTIONS FOR BREVITY ---
+        async function fetchScheduledPosts() { const list = document.getElementById('scheduled-posts-list'); list.innerHTML = '<p>Loading...</p>'; try { const response = await fetch(`${API_URL}/posts`); const posts = await response.json(); list.innerHTML = posts.length ? '' : '<p>No posts scheduled yet.</p>'; posts.forEach(post => { const div = document.createElement('div'); div.className = 'p-4 border rounded-md bg-gray-50'; div.innerHTML = `<p class="font-medium">"${post.content}"</p><p class="text-sm text-gray-500 mt-1">Platform: <strong>${post.platform}</strong> | Scheduled for: ${new Date(post.postAt).toLocaleString()}</p>`; list.appendChild(div); }); } catch (error) { list.innerHTML = `<p class="text-red-500">Could not load data.</p>`; } }
+        async function fetchTrends() { const list = document.getElementById('trends-list'); list.innerHTML = '<p>Loading...</p>'; try { const response = await fetch(`${API_URL}/trends`); const trends = await response.json(); list.innerHTML = ''; trends.forEach(trend => { const div = document.createElement('div'); div.className = 'p-4 border rounded-md bg-blue-50 flex justify-between items-center'; div.innerHTML = `<p class="font-bold text-blue-800">${trend.hashtag}</p><p class="text-sm text-gray-600">${trend.volume}</p>`; list.appendChild(div); }); } catch (error) { list.innerHTML = `<p class="text-red-500">Could not load trends.</p>`; } }
+    </script>
+</body>
+</html>
